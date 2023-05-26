@@ -129,3 +129,124 @@ Each ```WHEN``` tests a condtion and the following ```THEN``` gives us the strin
 
 ## Aggregate Functions
 
+* ```COUNT()``` - count the number of rows
+* ```SUM()``` - the sum of the values in a column
+* ```MAX()```/ ```MIN()``` - the largest/ smallest value
+* ```AVG()``` - the average of the values in a column
+* ```ROUND()``` - round the values in a the column
+
+### Count
+
+Takes the name of the column as an argument and counts the number of non-empty values in that column. Ex:
+```
+SELECT COUNT(*)
+FROM table_name;
+```
+This will count every row since we passed ```*``` as an argument inside the paranthesis.
+
+### Sum
+
+Takes the name of a column as an argument and returns the sum of all values in that column. Ex:
+```
+SELECT SUM(downloads)
+FROM fake_apps;
+```
+This adds all values in the downloads column.
+
+### Max / Min
+
+Functions that return the highest and lowest values in a column. Ex:
+```
+SELECT MAX(downloads)
+FROM fake_apps;
+```
+
+### Average
+
+Takes the column name as argument and returns the average value of that column.
+Ex:
+```
+SELECT AVG(downloads)
+FROM fake_apps;
+```
+
+### Round
+
+Takes two arguments inside the paranthesis:
+* A column name 
+* An integer
+
+It rounds the values in the column to the number of decimal places specified by the integer. Ex:
+```
+SELECT ROUND(price, 0)
+FROM fake_apps;
+```
+### Group By
+
+```GROUP BY``` is a clause in SQL that i used with aggregate functions. It is used in collaboration with the ```SELECT``` statement to arrange identical data into groups. Ex: We start with this
+```
+SELECT AVG(imdb_rating)
+FROM movies
+WHERE year = 1999;
+
+SELECT AVG(imdb_rating)
+FROM movies
+WHERE year = 2000;
+
+SELECT AVG(imdb_rating)
+FROM movies 
+WHERE year = 2001;
+```
+And it can become this using ```GROUP BY```.
+```
+SELECT year,
+  AVG(imdb_rating)
+FROM movies
+GROUP BY year
+ORDER BY year;
+```
+The ```GROUP BY``` statement comes after any ```WHERE``` statements, but before ```ORDER BY``` or ```LIMIT```.
+
+Sometimes we want to group by a calculation done on a column. Ex:
+```
+SELECT ROUND(imdb_rating),
+  COUNT(name)
+FROM movies 
+GROUP BY ROUND(imdb_rating)
+ORDER BY ROUND(imdb_rating);
+```
+You can make this less time consuming by using column reference numbers. 
+```
+SELECT ROUND(imdb_rating),
+  COUNT(name)
+FROM movies
+GROUP BY 1
+ORDER BY 1;
+```
+Where 1 is the first column selected, 2 the second, and so on.
+
+### Having
+
+* When we want to limit results of a query based on values of the individual rows, use ```WHERE```.
+* When we want to limit the results of a query based on an aggregate property, use ```HAVING```.
+
+EX:
+```
+SELECT year,
+  genre,
+  COUNT(name)
+FROM movies
+GROUP BY 1, 2
+HAVING COUNT(name) > 10;
+```
+```HAVING``` statements always come after ```GROUP BY``` but before ```ORDER BY``` and ```LIMIT```.
+
+### Review
+
+* ```COUNT()``` - count the number of rows
+* ```SUM()``` - the sum of the values in a column
+* ```MAX()```/ ```MIN()``` - the largest/ smallest value
+* ```AVG()``` - the average of the values in a column
+* ```ROUND()``` - round the values in a the column
+* ```GROUP BY``` - a clause used with aggregate functions to combine data from one or more columns
+* ```HAVING``` - limit the results of a query based on an aggregate property
