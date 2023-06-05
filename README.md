@@ -250,3 +250,63 @@ HAVING COUNT(name) > 10;
 * ```ROUND()``` - round the values in a the column
 * ```GROUP BY``` - a clause used with aggregate functions to combine data from one or more columns
 * ```HAVING``` - limit the results of a query based on an aggregate property
+
+
+## Multiple Tables
+
+### Join
+
+There will be more information on these as they get more complex. Ex:
+```
+SELECT *
+FROM orders
+JOIN customers
+  ON orders.customer_id = customers.customer_id;
+```
+```WHERE``` clause goes after the ```JOIN```. Ex:
+```
+SELECT *
+FROM orders
+JOIN subscriptions
+  ON orders.subscription_id = subscriptions.subscription_id
+WHERE subscriptions.description = 'Fashion Magazine';
+```
+This query will only select rows from the join where the ```description``` is equal to 'Fashion Magazine'.
+
+## Inner Join
+
+When we perform a simple ```JOIN``` (often called an _inner join_) our result only includes rows that match our ```ON``` condition. The next few images show an inner hopin on two tables on ```table1.c2 = table2.c2```.
+
+![First still](./src/img/first_still_inner.png)
+![Second still](./src/img/second_still_inner.png)
+![Third still](./src/img/third_still_inner.png)
+
+The first and last rows have matching values of ```c2```. The middle rows do not match. The final reulst has values from the first and last rows but does not include the non-matching middle row.
+
+### Left Join
+
+A ```LEFT JOIN``` willkeep all rows from the first table, regardless of whether there is a matching row in the second table. In the images below, the first and last rows have matching values for ```c2```. The middle rows do not match. The final result will keep all rows of the first table but will omit the un-matched row from the second table.
+
+![First still](./src/img/first_still_left.png)
+![Second still](./src/img/second_still_left.png)
+![Third still](./src/img/third_still_left.png)
+
+The images represent a table operation produced by the follwing command:
+```
+SELECT *
+FROM table1
+LEFT JOIN table2
+  ON table1.c2 = table2.c2;
+```
+
+### Primary and Foreign Keys
+
+Primary keys:
+* None of the values can be null.
+* Each value must be unique (i.e. you cant have two customers with the same ```customer_id``` in the ```customers``` table).
+* A table can not have more tha one primary key column.
+
+When the primary key for one table appears in a different table, it is called a foreign key.
+
+### Cross Join
+
