@@ -275,7 +275,7 @@ This query will only select rows from the join where the ```description``` is eq
 
 ## Inner Join
 
-When we perform a simple ```JOIN``` (often called an _inner join_) our result only includes rows that match our ```ON``` condition. The next few images show an inner hopin on two tables on ```table1.c2 = table2.c2```.
+When we perform a simple ```JOIN``` (often called an _inner join_) our result only includes rows that match our ```ON``` condition. The next few images show an inner join on two tables on ```table1.c2 = table2.c2```.
 
 ![First still](./src/img/first_still_inner.png)
 ![Second still](./src/img/second_still_inner.png)
@@ -309,4 +309,48 @@ Primary keys:
 When the primary key for one table appears in a different table, it is called a foreign key.
 
 ### Cross Join
+Sometimes we want to combine all rows of one table with all rows o another table. For instance, if we had a table of shirts and a table of pants, we might want to know all the possible combinations to create different outfits. Ex:
+```
+SELECT shirts.shirt_color,
+  pants.pants_color
+FROM shirts
+CROSS JOIN pants;
+```
+The first two lines select the columns ```shirt_color``` and ```pants_color```. The third line pulls data from the table shirts. The fourth line performs a ```CROSS JOIN``` with pants. Notice that cross joins dont require an ```ON``` statement. This is a fairly impractical excample, a more common usage is when we need to compare each row of a table to a list of values.
 
+### Union
+SOmetimes we just want to stack one dataset on top of another, fo rthat we use ```UNION```. Ex:
+```
+SELECT * 
+FROM table1
+UNION
+SELECT *
+FROM table2;
+```
+The tables must have the same number of columns and the columns must have the same datat types in the same order as the first table.
+
+### With
+
+The ```WITH``` statement allows us to perform a seperate query (such as aggregating customer's subscriptions). Ex:
+```
+WITH previous_results AS (
+  SELECT ...
+  ...
+  ...
+  ...
+)
+SELECT *
+FROM previous_results
+JOIN customers
+  ON _____ = _____;
+```
+```previous_results``` is the alias that we will use to reference any columns from the query inside of the ```WITH``` clause. WE can then go on to do whatever we want with this temporary table (such as join the temporary table with another table). Essentially, we are putting a whole first query inside the parantheses and giving it a name. After that, we can use this name as if it's a table and write a new query using the first query.
+
+### Review
+* ```JOIN ``` will combine rows from different tables if the join condition is true.
+* ```LEFT JOIN``` will return every row in the left table, and if the join condition is not met, ```NULL``` values are used to fill in the columns from the right table.
+* Primary key is a column that serves a unique identifier for the rows in the table.
+* Foreign key is a column that contains the primary key to another table.
+* ```CROSS JOIN``` lets us combine all rows of one table with all rows of another table.
+* ```UNION``` stacks one dataset on top of another.
+* ```WITH``` allows us to define one or more temporary tables that can be used in the final query.
