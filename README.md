@@ -273,7 +273,7 @@ WHERE subscriptions.description = 'Fashion Magazine';
 ```
 This query will only select rows from the join where the ```description``` is equal to 'Fashion Magazine'.
 
-## Inner Join
+### Inner Join
 
 When we perform a simple ```JOIN``` (often called an _inner join_) our result only includes rows that match our ```ON``` condition. The next few images show an inner join on two tables on ```table1.c2 = table2.c2```.
 
